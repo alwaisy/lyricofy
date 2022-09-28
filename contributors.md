@@ -6,4 +6,4 @@
 3. marinamosti
 
 ## Countributors
-1. YourName here
+1. Badasscoder => @jeanbaptis123
