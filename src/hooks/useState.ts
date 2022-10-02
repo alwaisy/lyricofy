@@ -1,4 +1,4 @@
-import { readonly, ref } from 'vue';
+import { ref } from 'vue';
 
 export function useState(initialState: any) {
   const state = ref(initialState);
@@ -6,5 +6,5 @@ export function useState(initialState: any) {
     state.value = newState;
   };
 
-  return [readonly(state), setState];
+  return [state, setState];
 }
