@@ -1,3 +1,3 @@
 <template>
-  <div>Search</div>
+  <div>Error</div>
 </template>

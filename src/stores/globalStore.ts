@@ -6,7 +6,14 @@ interface IState {
   currentIndex: number;
   isActive: boolean;
   isPlaying: boolean;
-  activeSong: { title?: string };
+  activeSong: {
+    title?: string;
+    subtitle?: string;
+    images?: { coverart?: string };
+    hub: {
+      actions?: [{}, { uri: string }, {}];
+    };
+  };
   genreListId: string;
 }
 
@@ -18,7 +25,14 @@ export const useGlobalStore = defineStore('g_store', {
       isActive: false,
       isPlaying: false,
       activeSong: {
-        title: ''
+        title: 'Song Name',
+        subtitle: '',
+        images: {
+          coverart: ''
+        },
+        hub: {
+          actions: [{}, { uri: '' }, {}]
+        }
       },
       genreListId: ''
     } as IState),
@@ -64,7 +78,15 @@ export const useGlobalStore = defineStore('g_store', {
     },
 
     playPause: function (payload: any) {
-      this.isPlaying = payload;
+      if (this.isPlaying) {
+        this.isPlaying = false;
+        // console.log(payload.pause, 'stopped');
+        return payload?.pause();
+      } else {
+        this.isPlaying = true;
+        // console.log(payload.play, 'played');
+        return payload?.play();
+      }
     },
 
     selectGenreListId: function (payload: any) {

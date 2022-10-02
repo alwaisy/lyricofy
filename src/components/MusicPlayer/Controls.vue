@@ -1,26 +1,22 @@
 <script lang="ts" setup>
-import { toRefs } from 'vue';
-
-const props = toRefs(
-  defineProps<{
-    isPlaying: string;
-    repeat: boolean;
-    setRepeat: any;
-    shuffle: boolean;
-    setShuffle: any;
-    currentSongs: string[];
-    handlePlayPause: () => void;
-    handlePrevSong: () => void;
-    handleNextSong: () => void;
-  }>()
-);
+const props = defineProps<{
+  isPlaying: boolean;
+  repeat: boolean;
+  setRepeat: any;
+  shuffle: boolean;
+  setShuffle: any;
+  currentSongs: string[];
+  handlePlayPause: () => void;
+  handlePrevSong: () => void;
+  handleNextSong: () => void;
+}>();
 </script>
 
 <template>
   <div class="flex items-center justify-around md:w-36 lg:w-52 2xl:w-80">
     <BsArrowRepeat
       size="{20}"
-      :color="{repeat ? 'red' : 'white'}"
+      :color="repeat ? 'red' : 'white'"
       @click="() => setRepeat((prev: any) => !prev)"
       class="hidden sm:block cursor-pointer"
     />
@@ -56,8 +52,8 @@ const props = toRefs(
       @click="handleNextSong"
     />
     <BsShuffle
-      size="{20}"
-      :color="{shuffle ? 'red' : 'white'}"
+      size="20"
+      :color="shuffle ? 'red' : 'white'"
       @click="() => setShuffle((prev: any) => !prev)"
       class="hidden sm:block cursor-pointer"
     />

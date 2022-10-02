@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useState } from '@/hooks';
 import { useGlobalStore } from '@/stores/globalStore';
-import { ref, watch } from 'vue';
 import { useEffect } from 'vue3-hooks';
 import Controls from './Controls.vue';
 import Player from './Player.vue';

@@ -19,7 +19,7 @@ const router = createRouter({
       component: Discover
     },
     {
-      path: '/top-artist',
+      path: '/top-artists',
       name: 'top-artist',
       component: TopArtists
     },

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView, useRoute } from 'vue-router';
-import { Searchbar, Sidebar, TopPlay } from './components';
+import { Searchbar, Sidebar, TopPlay, MusicPlayer } from './components';
 import { useGlobalStore } from './stores/globalStore';
 
 const { activeSong } = useGlobalStore();
@@ -33,5 +33,3 @@ const route = useRoute();
     </div>
   </div>
 </template>
-
-<style></style>
