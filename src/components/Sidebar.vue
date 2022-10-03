@@ -153,7 +153,7 @@ const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     class="absolute top-0 h-screen w-2/3 bg-gradient-to-tl from-white/10 to-[#483D8B] backdrop-blur-lg z-10 p-6 md:hidden smooth-transition left-0"
   >
     <img
-      src="/src/assets/logo.svg"
+      src="https://raw.githubusercontent.com/adrianhajdin/project_music_player/main/src/assets/logo.svg"
       alt="logo"
       class="w-full h-14 object-contain"
     />
