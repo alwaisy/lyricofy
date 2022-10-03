@@ -48,7 +48,7 @@ const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   <div class="md:flex hidden flex-col w-[240px] py-10 px-4 bg-[#191624]">
     <img
-      src="/src/assets/logo.svg"
+      src="https://raw.githubusercontent.com/adrianhajdin/project_music_player/main/src/assets/logo.svg"
       alt="logo"
       class="w-full h-14 object-contain"
     />
