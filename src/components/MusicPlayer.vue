@@ -89,9 +89,16 @@ const onLoadedData = (event: Event) => {
 //     return store.playPause(true);
 //   }
 // };
-const handlePlayPause = {
-  play: audioRef.value?.play,
-  pause: audioRef.value?.pause
+
+const setSeekTime = (timeVal: number) => {
+  seekTime.value = timeVal;
+};
+
+const songForward = () => {
+  setSeekTime(appTime.value + 5);
+};
+const songBackward = () => {
+  setSeekTime(appTime.value - 5);
 };
 
 /* const handleNextSong = () => {
@@ -247,7 +254,11 @@ const handlePrevSong = () => {
         </div>
 
         <div class="hidden sm:flex flex-row items-center">
-          <button type="button" class="hidden lg:mr-4 lg:block text-white">
+          <button
+            type="button"
+            @click="songBackward"
+            class="hidden lg:mr-4 lg:block text-white"
+          >
             -
           </button>
           <!-- <p class="text-white">0:00</p> -->
@@ -267,7 +278,11 @@ const handlePrevSong = () => {
           <p class="text-white">
             {{ duration === 0 ? '0:00' : getTime(duration) }}
           </p>
-          <button type="button" class="hidden lg:ml-4 lg:block text-white">
+          <button
+            type="button"
+            @click="songForward"
+            class="hidden lg:ml-4 lg:block text-white"
+          >
             +
           </button>
         </div>
