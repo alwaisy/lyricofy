@@ -4,5 +4,6 @@ import TopPlay from './TopPlay.vue';
 // import MusicPlayer from './MusicPlayer/index.vue';
 import MusicPlayer from './MusicPlayer.vue';
 import RelatedSongs from './RelatedSongs.vue';
+import SongCard from './SongCard.vue';
 
-export { Sidebar, Searchbar, TopPlay, MusicPlayer, RelatedSongs };
+export { Sidebar, Searchbar, TopPlay, MusicPlayer, RelatedSongs, SongCard };

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { RouterLink, RouterView, useRoute } from 'vue-router';
 import { Searchbar, Sidebar, TopPlay, MusicPlayer } from './components';
-import { useGlobalStore } from './stores/globalStore';
+import { useStore } from './stores/useStore';
 
-const { activeSong } = useGlobalStore();
+const { activeSong } = useStore();
 const route = useRoute();
 </script>
 
@@ -17,7 +17,21 @@ const route = useRoute();
         class="px-6 h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse"
       >
         <div class="flex-1 h-fit pb-40">
-          <RouterView />
+          <RouterView v-slot="{ Component }">
+            <template v-if="Component">
+              <Transition mode="out-in">
+                <Suspense>
+                  <!-- main content -->
+                  <component :is="Component"></component>
+
+                  <!-- loading state -->
+                  <template #fallback> Loading... </template>
+                </Suspense>
+              </Transition>
+            </template>
+          </RouterView>
+
+          <!-- <RouterView /> -->
         </div>
         <div class="xl:sticky relative top-0 h-fit">
           <TopPlay />

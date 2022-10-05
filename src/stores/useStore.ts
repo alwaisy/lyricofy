@@ -15,9 +15,10 @@ interface IState {
     };
   };
   genreListId: string;
+  genreSelected: string;
 }
 
-export const useGlobalStore = defineStore('g_store', {
+export const useStore = defineStore('g_store', {
   state: () =>
     ({
       currentSongs: [],
@@ -34,7 +35,8 @@ export const useGlobalStore = defineStore('g_store', {
           actions: [{}, { uri: '' }, {}]
         }
       },
-      genreListId: ''
+      genreListId: '',
+      genreSelected: 'Pop'
     } as IState),
 
   getters: {},
@@ -89,8 +91,8 @@ export const useGlobalStore = defineStore('g_store', {
       }
     },
 
-    selectGenreListId: function (payload: any) {
-      this.genreListId = payload;
+    selectGenre: function (payload: any) {
+      this.genreSelected = payload;
     }
   }
 });

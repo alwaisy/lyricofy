@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useState } from '@/hooks';
-import { useGlobalStore } from '@/stores/globalStore';
+import { useStore } from '@/stores/useStore';
 import { computed, ref, watch } from 'vue';
 import { useEffect } from 'vue3-hooks';
 
@@ -11,7 +11,7 @@ const volume = ref(0.3);
 const repeat = ref(false);
 const shuffle = ref(false);
 
-const store = useGlobalStore();
+const store = useStore();
 // const time = ref(0);
 /* useEffect(() => {
   if (currentSongs.length) store.playPause();
