@@ -1,3 +1,18 @@
+<script lang="ts" setup>
+/* import { updateState, state } from '@/composables/useTopCharts';
+  import topChatsService from '@/services/topChartsService';
+  
+  const { data } = await topChatsService.getData();
+  updateState(data);
+  console.log(state); */
+import { useApiStore } from '@/stores/useApiStore';
+import { SongCard } from '@/components';
+const store = useApiStore();
+
+await store.getTopCharts();
+console.log(store.topCharts);
+</script>
+
 <template>
   <div class="flex flex-col">
     <h2 class="font-bold text-3xl text-white text-left mt-4 mb-10">
@@ -13,18 +28,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-/* import { updateState, state } from '@/composables/useTopCharts';
-import topChatsService from '@/services/topChartsService';
-
-const { data } = await topChatsService.getData();
-updateState(data);
-console.log(state); */
-import { useApiStore } from '@/stores/useApiStore';
-import { SongCard } from '@/components';
-const store = useApiStore();
-
-await store.getTopCharts();
-console.log(store.topCharts);
-</script>
