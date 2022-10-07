@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import { ref } from '@vue/reactivity';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const searchTerm = ref<string>();
+const handleSearch = () => {
+  router.push({ name: 'search', params: { searchTerm: searchTerm.value } });
+};
+</script>
+
 <template>
   <div>
     <form
@@ -22,17 +33,19 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input
-          name="search-field"
-          autocomplete="off"
-          id="search-field"
-          class="flex-1 bg-transparent border-none placeholder-gray-500 outline-none text-base text-white p-4"
-          placeholder="Search"
-          type="search"
-          value=""
-          spellcheck="false"
-          data-ms-editor="true"
-        />
+        <form @keypress.enter.prevent="handleSearch">
+          <input
+            name="search-field"
+            autocomplete="off"
+            id="search-field"
+            class="flex-1 bg-transparent border-none placeholder-gray-500 outline-none text-base text-white p-4"
+            placeholder="Search - A Million Dreams"
+            type="search"
+            v-model="searchTerm"
+            spellcheck="false"
+            data-ms-editor="true"
+          />
+        </form>
       </div>
     </form>
   </div>

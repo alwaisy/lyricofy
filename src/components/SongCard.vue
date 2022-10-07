@@ -23,16 +23,26 @@
       </div>
       <img
         alt="song_img"
-        :src="$attrs.chart.images.coverart"
+        :src="
+          $route.name === 'search'
+            ? $attrs.song.images.coverart
+            : $attrs.chart.images.coverart
+        "
         class="w-full h-full rounded-lg"
       />
     </div>
     <div class="mt-4 flex flex-col">
       <p class="font-semibold text-lg text-white truncate">
-        <a href="/songs/590865488">{{ $attrs.chart.title }}</a>
+        <a href="/songs/590865488">{{
+          $route.name === 'search' ? $attrs.song.title : $attrs.chart.title
+        }}</a>
       </p>
       <p class="text-sm truncate text-gray-300 mt-1">
-        <a href="/artists/1191850724">{{ $attrs.chart.artists[0].alias }}</a>
+        <a href="/artists/1191850724">{{
+          $route.name === 'search'
+            ? $attrs.song.artists[0].alias
+            : $attrs.chart.artists[0].alias
+        }}</a>
       </p>
     </div>
   </div>

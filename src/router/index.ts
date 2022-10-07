@@ -20,7 +20,7 @@ const router = createRouter({
     },
     {
       path: '/top-artists',
-      name: 'top-artist',
+      name: 'top-artists',
       component: TopArtists
     },
     {
