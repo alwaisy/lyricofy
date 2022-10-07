@@ -22,7 +22,7 @@ const route = useRoute();
               <Transition mode="out-in">
                 <Suspense>
                   <!-- main content -->
-                  <component :is="Component"></component>
+                  <component :is="Component" :key="route.path"></component>
 
                   <!-- loading state -->
                   <template #fallback> Loading... </template>

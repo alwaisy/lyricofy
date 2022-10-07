@@ -6,6 +6,7 @@ interface IState {
   topCharts: [];
   songsByGenre: [];
   songsByCountry: [];
+  songsBySearch: [];
   error: Error | unknown;
 }
 
@@ -15,6 +16,7 @@ export const useApiStore = defineStore('api_store', {
       topCharts: [],
       songsByGenre: [],
       songsByCountry: [],
+      songsBySearch: [],
       error: ''
     } as IState),
 
@@ -62,13 +64,13 @@ export const useApiStore = defineStore('api_store', {
 
     getSongsByCountry: async function (countryCode: string) {
       const endpoint = `${import.meta.env.VITE_BASE_API_URL}/charts/country`;
-      console.log(typeof countryCode, '^');
+      // console.log(typeof countryCode, '^');
 
       const qParams = {
         params: { country_code: countryCode }
       };
 
-      console.log(endpoint);
+      // console.log(endpoint);
 
       const self = this;
 
@@ -76,6 +78,31 @@ export const useApiStore = defineStore('api_store', {
         const { data } = await http.get(endpoint, qParams);
         // console.log(data);
         self.songsByCountry = data;
+      } catch (error) {
+        // console.error(error);
+        self.error = error;
+      }
+    },
+
+    getSongsBySearch: async function (searchTerm: string) {
+      const endpoint = `${import.meta.env.VITE_BASE_API_URL}/search/multi`;
+
+      console.log(searchTerm, '^');
+
+      const qParams = {
+        params: { search_type: 'SONGS_ARTISTS', query: searchTerm }
+      };
+
+      // console.log(endpoint);
+
+      const self = this;
+
+      try {
+        const { data } = await http.get(endpoint, qParams);
+        // console.log(data);
+        self.songsBySearch = data?.tracks?.hits.map(
+          (song: { track: any }) => song.track
+        );
       } catch (error) {
         // console.error(error);
         self.error = error;
