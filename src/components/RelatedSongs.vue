@@ -41,6 +41,7 @@
             alt="Breakfast"
           />
           <div class="flex-1 flex flex-col justify-center mx-3">
+<<<<<<< Updated upstream
             <a href="/songs/615426817"
               ><p class="text-xl font-bold text-white">Breakfast</p></a
             >
@@ -622,6 +623,12 @@
               ><p class="text-xl font-bold text-white">
                 Get Down (Extended Mix)
               </p></a
+=======
+            <RouterLink :to="`/songs/${song.key}`"
+              ><p class="text-xl font-bold text-white">
+                {{ song?.title }}
+              </p></RouterLink
+>>>>>>> Stashed changes
             >
             <p class="text-base text-gray-300 mt-1">Hevi Levi</p>
           </div>
