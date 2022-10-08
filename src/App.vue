@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { RouterLink, RouterView, useRoute } from 'vue-router';
 import { Searchbar, Sidebar, TopPlay, MusicPlayer } from './components';
+import { useApiStore } from './stores/useApiStore';
 import { useStore } from './stores/useStore';
+
+const api = useApiStore();
 
 const { activeSong } = useStore();
 const route = useRoute();
@@ -11,6 +14,7 @@ const route = useRoute();
   <div class="relative flex">
     <Sidebar />
     <div class="flex-1 flex flex-col bg-gradient-to-br from-black to-[#121286]">
+      <!-- {{ api.error }} -->
       <Searchbar />
 
       <div
