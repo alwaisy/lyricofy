@@ -6,6 +6,7 @@ import MusicPlayer from './MusicPlayer.vue';
 import RelatedSongs from './RelatedSongs.vue';
 import SongCard from './SongCard.vue';
 import ArtistCard from './ArtistCard.vue';
+import DetailsHeader from './DetailsHeader.vue';
 
 export {
   Sidebar,
@@ -14,5 +15,6 @@ export {
   MusicPlayer,
   RelatedSongs,
   SongCard,
-  ArtistCard
+  ArtistCard,
+  DetailsHeader
 };

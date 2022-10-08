@@ -1,3 +1,29 @@
+<script setup lang="ts">
+import { defineProps, ref } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+
+interface IArtists {
+  adamid: string;
+}
+
+type TArtists = IArtists[];
+
+interface IProps {
+  title: string;
+  subtitle: string;
+  images: {
+    coverart: string;
+  };
+  artists: TArtists;
+}
+
+const { chart } = defineProps<{
+  chart: IProps;
+}>();
+</script>
+
 <template>
   <div
     class="flex flex-col w-[250px] p-4 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer"
@@ -23,26 +49,24 @@
       </div>
       <img
         alt="song_img"
-        :src="
-          $route.name === 'search'
-            ? $attrs.song.images.coverart
-            : $attrs.chart.images.coverart
-        "
+        :src="chart?.images?.coverart ? chart?.images?.coverart : undefined"
         class="w-full h-full rounded-lg"
       />
     </div>
     <div class="mt-4 flex flex-col">
       <p class="font-semibold text-lg text-white truncate">
-        <a href="/songs/590865488">{{
-          $route.name === 'search' ? $attrs.song.title : $attrs.chart.title
-        }}</a>
+        <RouterLink :to="`/songs/${chart.key}`">{{
+          chart?.title ? chart?.title : null
+        }}</RouterLink>
       </p>
       <p class="text-sm truncate text-gray-300 mt-1">
-        <a href="/artists/1191850724">{{
-          $route.name === 'search'
-            ? $attrs.song.artists[0].alias
-            : $attrs.chart.artists[0].alias
-        }}</a>
+        <RouterLink
+          :to="`/artists/${
+            chart?.artists[0]?.adamid ? chart?.artists[0]?.adamid : null
+          }`"
+        >
+          {{ chart?.subtitle ? chart?.subtitle : null }}
+        </RouterLink>
       </p>
     </div>
   </div>

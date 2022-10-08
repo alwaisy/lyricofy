@@ -4,15 +4,15 @@ import { useApiStore } from '@/stores/useApiStore';
 import { ref, watch } from 'vue';
 import { SongCard } from '@/components';
 
-const store = useApiStore();
+const api = useApiStore();
 
 const genreSelected = ref('POP');
 
-await store.getSongsByGenre(genreSelected.value);
+await api.getSongsByGenre(genreSelected.value);
 
 watch(genreSelected, async () => {
-  await store.getSongsByGenre(genreSelected.value);
-  console.log(store.topCharts, store.error);
+  await api.getSongsByGenre(genreSelected.value);
+  console.log(api.topCharts, api.error);
 });
 </script>
 
@@ -33,9 +33,16 @@ watch(genreSelected, async () => {
     </div>
     <div class="flex flex-wrap sm:justify-start justify-center gap-8">
       <SongCard
-        v-for="chart in store.topCharts"
-        :key="chart.key"
+        v-for="(chart, i) in api.topCharts.slice(0, 17) || []"
+        :key="i"
         :chart="chart"
+        :i="i"
+      />
+      <SongCard
+        v-for="(chart, i) in api.topCharts.slice(18, 50) || []"
+        :key="i"
+        :chart="chart"
+        :i="i"
       />
     </div>
   </div>

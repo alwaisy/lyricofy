@@ -36,12 +36,14 @@ const router = createRouter({
     {
       path: '/artists/:id',
       name: 'artist-detail',
-      component: ArtistDetails
+      component: ArtistDetails,
+      props: true
     },
     {
       path: '/songs/:id',
       name: 'song-detail',
-      component: SongDetails
+      component: SongDetails,
+      props: true
     },
     {
       path: '/search/:searchTerm',
