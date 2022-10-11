@@ -28,9 +28,9 @@ console.log(api.relatedSongs);
             alt="R!CH B!TCH"
           />
           <div class="flex-1 flex flex-col justify-center mx-3">
-            <a href="/songs/626707978"
-              ><p class="text-xl font-bold text-white">{{ song?.title }}</p></a
-            >
+            <RouterLink :to="`/songs/${song?.key}`">
+              <p class="text-xl font-bold text-white">{{ song?.title }}</p>
+            </RouterLink>
             <p class="text-base text-gray-300 mt-1">
               {{ song?.artists[0].alias }}
             </p>

@@ -1,8 +1,5 @@
 // import { useImage } from '@/hooks/useImage';
-import Discover from '@/assets/sidebar/discover.svg';
-import AroundYou from '@/assets/sidebar/around-you.svg';
-import TopArtists from '@/assets/sidebar/top-artists.svg';
-import TopCharts from '@/assets/sidebar/top-charts.svg';
+import { Discover, AroundYou, TopArtists, TopCharts } from '@/assets/svg';
 
 interface IMenu {
   id: number;

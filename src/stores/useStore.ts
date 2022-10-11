@@ -1,6 +1,8 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 
+const actions = [{ uri: '' }];
+
 interface IState {
   currentSongs: string[];
   currentIndex: number;
@@ -10,13 +12,20 @@ interface IState {
     title?: string;
     subtitle?: string;
     images?: { coverart?: string };
-    hub: {
-      actions?: [{}, { uri: string }, {}];
+    hub?: {
+      actions?: TActions;
     };
   };
   genreListId: string;
   genreSelected: string;
 }
+
+interface IActions {
+  name: string;
+  type: string;
+  uri: string;
+}
+type TActions = IActions[];
 
 export const useStore = defineStore('g_store', {
   state: () =>
@@ -25,16 +34,7 @@ export const useStore = defineStore('g_store', {
       currentIndex: 0,
       isActive: false,
       isPlaying: false,
-      activeSong: {
-        title: 'Song Name',
-        subtitle: '',
-        images: {
-          coverart: ''
-        },
-        hub: {
-          actions: [{}, { uri: '' }, {}]
-        }
-      },
+      activeSong: {},
       genreListId: '',
       genreSelected: 'Pop'
     } as IState),
@@ -42,18 +42,22 @@ export const useStore = defineStore('g_store', {
   getters: {},
 
   actions: {
-    setActiveSong: function (payload: any) {
-      this.activeSong = payload.song;
+    setActiveSong: function (song: any, songs: any, i: any) {
+      // console.log (songs);
 
-      if (payload?.data?.tracks?.hits) {
-        this.currentSongs = payload.data.tracks.hits;
-      } else if (payload?.data?.properties) {
-        this.currentSongs = payload?.data?.tracks;
+      this.activeSong = song;
+      if (songs?.tracks?.hits) {
+        this.currentSongs = songs?.tracks.hits;
+        console.log('track.hits');
+      } else if (songs?.properties) {
+        this.currentSongs = songs?.tracks;
+        console.log('songs.tracks');
       } else {
-        this.currentSongs = payload.data;
+        this.currentSongs = songs;
+        console.log('songs');
       }
 
-      this.currentIndex = payload.i;
+      this.currentIndex = i;
       this.isActive = true;
     },
 
@@ -79,17 +83,11 @@ export const useStore = defineStore('g_store', {
       this.isActive = true;
     },
 
-    playPause: function (payload: any) {
-      if (this.isPlaying) {
-        this.isPlaying = false;
-        // console.log(payload.pause, 'stopped');
-        return payload?.pause();
-      } else {
-        this.isPlaying = true;
-        // console.log(payload.play, 'played');
-        return payload?.play();
-      }
+    playPause: function () {
+      this.isPlaying = !this.isPlaying;
     },
+
+    handlePlayPause: function (payload: any) {},
 
     selectGenre: function (payload: any) {
       this.genreSelected = payload;

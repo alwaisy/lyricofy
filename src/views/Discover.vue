@@ -37,12 +37,14 @@ watch(genreSelected, async () => {
         :key="i"
         :chart="chart"
         :i="i"
+        :charts="api.topCharts"
       />
       <SongCard
         v-for="(chart, i) in api.topCharts.slice(18, 50) || []"
         :key="i"
         :chart="chart"
         :i="i"
+        :charts="api.topCharts"
       />
     </div>
   </div>
