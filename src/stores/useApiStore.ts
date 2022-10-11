@@ -83,7 +83,7 @@ export const useApiStore = defineStore('api_store', {
 
       try {
         const { data } = await http.get(endpoint, qParams);
-        // console.log(response.data);
+        // console.log(data);
         self.topCharts = data;
       } catch (error) {
         // console.error(error);

@@ -1,13 +1,25 @@
 <script setup lang="ts">
 import { useState } from '@/hooks';
 import { useStore } from '@/stores/useStore';
-import { computed, ref, watch } from 'vue';
+import { computed, onUpdated, ref, watch } from 'vue';
 import { useEffect } from 'vue3-hooks';
+import {
+  Play,
+  Pause,
+  Next,
+  Previous,
+  Shuffle,
+  VolumeDown,
+  VolumeUp,
+  VolumeMute,
+  RepeatSong
+} from '@/assets/svg';
+import { storeToRefs } from 'pinia';
 
 const duration = ref(0);
 const seekTime = ref(0);
 const appTime = ref(0);
-const volume = ref(0.3);
+const volume = ref<number>(0.3);
 const repeat = ref(false);
 const shuffle = ref(false);
 
@@ -21,18 +33,7 @@ const audioRef = ref();
 const getTime = (time: number) =>
   `${Math.floor(time / 60)}:${`0${Math.floor(time % 60)}`.slice(-2)}`;
 
-/* useEffect(() => {
-  audioRef.value.volume = volume;
-}, [volume]);
-// updates audio element only on seekTime change (and not on each rerender):
-useEffect(() => {
-  audioRef.value.currentTime = seekTime;
-}, [seekTime]); */
-
-// onMounted(() => {});
-// computed(() => (audioRef.value.volume = volume.value));
-// computed(() => (seekTime.value = audioRef.value.currentTime));
-
+const { isPlaying } = storeToRefs(useStore());
 watch(seekTime, () => {
   audioRef.value.currentTime = seekTime.value;
   // console.log(audioRef.value.currentTime, 'ss');
@@ -42,11 +43,40 @@ watch(volume, () => {
   // console.log(audioRef.value.volume, 'ss');
 });
 
+const handlePlayPause = () => {
+  if (isPlaying.value) {
+    setTimeout(() => {
+      console.log('playing');
+
+      return audioRef.value?.play();
+    }, 500);
+  } else {
+    const playPromise = audioRef.value?.pause();
+    store.playPause;
+    console.log('paused');
+
+    return playPromise;
+  }
+};
+
+/* onUpdated(() => {
+  handlePlayPause();
+}); */
+
+watch(
+  isPlaying,
+  () => {
+    handlePlayPause();
+  },
+  { immediate: true }
+);
+
 const updateSeekTime = () => {
   seekTime.value = appTime.value;
 };
-const setVolume = () => {
+const setVolume = (vol: number) => {
   console.log(volume.value);
+  volume.value = vol;
 };
 
 const onTimeUpdate = (event: Event) => {
@@ -56,19 +86,27 @@ const onLoadedData = (event: Event) => {
   duration.value = (event.target as HTMLMediaElement).duration;
 };
 
-/* const handlePlayPause = () => {
-  if (!isActive) return;
+/* const handlePause = () => {
+  // if (!store.isActive) return;
 
-  if (isPlaying) {
-    console.log('playing', audioRef);
-    // audioRef.value?.play();
-    store.playPause();
-  } else {
-    console.log('not playing');
-    // audioRef.value?.pause();
-    store.playPause();
-  }
+  audioRef.value?.pause();
+  store.playPause();
+
+  console.log('stopped');
+};
+const handlePlay = () => {
+  audioRef.value?.play();
+  store.playPause();
+
+  console.log('played');
 }; */
+
+/* if (store.isPlaying) {
+  audioRef.value?.play();
+} else {
+  audioRef.value?.pause();
+} */
+
 // const handlePlayPause = () => {
 //   /* if (store.isActive === false) return;
 //   console.log(store.isPlaying, store.isActive);
@@ -144,113 +182,14 @@ const handlePrevSong = () => {
       </div>
       <div class="flex-1 flex flex-col items-center justify-center">
         <div class="flex items-center justify-around md:w-36 lg:w-52 2xl:w-80">
-          <svg
-            stroke="currentColor"
-            fill="currentColor"
-            stroke-width="0"
-            viewBox="0 0 16 16"
-            color="white"
-            class="hidden sm:block cursor-pointer"
-            height="20"
-            width="20"
-            xmlns="http://www.w3.org/2000/svg"
-            style="color: white"
-          >
-            <path
-              d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"
-            ></path>
-            <path
-              fill-rule="evenodd"
-              d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"
-            ></path>
-          </svg>
-          <svg
-            stroke="currentColor"
-            fill="currentColor"
-            stroke-width="0"
-            viewBox="0 0 24 24"
-            color="#FFF"
-            class="cursor-pointer"
-            height="30"
-            width="30"
-            xmlns="http://www.w3.org/2000/svg"
-            style="color: rgb(255, 255, 255)"
-          >
-            <path fill="none" d="M0 0h24v24H0z"></path>
-            <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path>
-          </svg>
-          <span v-if="store.isPlaying" @click="store.playPause(audioRef)">
-            <svg
-              stroke="currentColor"
-              fill="currentColor"
-              stroke-width="0"
-              viewBox="0 0 16 16"
-              color="#FFF"
-              class="cursor-pointer"
-              height="45"
-              width="45"
-              xmlns="http://www.w3.org/2000/svg"
-              style="color: rgb(255, 255, 255)"
-            >
-              <path
-                d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"
-              ></path>
-            </svg>
-          </span>
-          <span v-else @click="store.playPause(audioRef)">
-            <svg
-              stroke="currentColor"
-              fill="currentColor"
-              stroke-width="0"
-              viewBox="0 0 16 16"
-              color="#FFF"
-              class="cursor-pointer"
-              height="45"
-              width="45"
-              xmlns="http://www.w3.org/2000/svg"
-              style="color: rgb(255, 255, 255)"
-            >
-              <path
-                d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"
-              ></path>
-            </svg>
-          </span>
+          <RepeatSong />
+          <Previous />
 
-          <svg
-            stroke="currentColor"
-            fill="currentColor"
-            stroke-width="0"
-            viewBox="0 0 24 24"
-            color="#FFF"
-            class="cursor-pointer"
-            height="30"
-            width="30"
-            xmlns="http://www.w3.org/2000/svg"
-            style="color: rgb(255, 255, 255)"
-          >
-            <path fill="none" d="M0 0h24v24H0z"></path>
-            <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"></path>
-          </svg>
-          <svg
-            stroke="currentColor"
-            fill="currentColor"
-            stroke-width="0"
-            viewBox="0 0 16 16"
-            color="white"
-            class="hidden sm:block cursor-pointer"
-            height="20"
-            width="20"
-            xmlns="http://www.w3.org/2000/svg"
-            style="color: white"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M0 3.5A.5.5 0 0 1 .5 3H1c2.202 0 3.827 1.24 4.874 2.418.49.552.865 1.102 1.126 1.532.26-.43.636-.98 1.126-1.532C9.173 4.24 10.798 3 13 3v1c-1.798 0-3.173 1.01-4.126 2.082A9.624 9.624 0 0 0 7.556 8a9.624 9.624 0 0 0 1.317 1.918C9.828 10.99 11.204 12 13 12v1c-2.202 0-3.827-1.24-4.874-2.418A10.595 10.595 0 0 1 7 9.05c-.26.43-.636.98-1.126 1.532C4.827 11.76 3.202 13 1 13H.5a.5.5 0 0 1 0-1H1c1.798 0 3.173-1.01 4.126-2.082A9.624 9.624 0 0 0 6.444 8a9.624 9.624 0 0 0-1.317-1.918C4.172 5.01 2.796 4 1 4H.5a.5.5 0 0 1-.5-.5z"
-            ></path>
-            <path
-              d="M13 5.466V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192zm0 9v-3.932a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192z"
-            ></path>
-          </svg>
+          <Pause v-if="store.isPlaying" @click="store.playPause" />
+          <Play v-else @click="store.playPause" />
+
+          <Next />
+          <Shuffle />
         </div>
 
         <div class="hidden sm:flex flex-row items-center">
@@ -287,7 +226,7 @@ const handlePrevSong = () => {
           </button>
         </div>
         <audio
-          src="https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/6e/2b/f3/6e2bf33f-08c9-6286-b8c0-b7e7b8630d1b/mzaf_11852854497905823862.plus.aac.ep.m4a"
+          :src="store.activeSong?.hub?.actions[1]?.uri"
           __idm_id__="2113537"
           ref="audioRef"
           :loop="repeat"
@@ -297,28 +236,19 @@ const handlePrevSong = () => {
         {{}}
       </div>
       <div class="hidden lg:flex flex-1 items-center justify-end">
-        <svg
-          stroke="currentColor"
-          fill="currentColor"
-          stroke-width="0"
-          viewBox="0 0 16 16"
-          color="#FFF"
-          height="25"
-          width="25"
-          xmlns="http://www.w3.org/2000/svg"
-          style="color: rgb(255, 255, 255)"
-        >
-          <path
-            d="M9 4a.5.5 0 0 0-.812-.39L5.825 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 9 12V4zm3.025 4a4.486 4.486 0 0 1-1.318 3.182L10 10.475A3.489 3.489 0 0 0 11.025 8 3.49 3.49 0 0 0 10 5.525l.707-.707A4.486 4.486 0 0 1 12.025 8z"
-          ></path>
-        </svg>
+        <VolumeDown v-if="volume <= 0.5 && volume > 0" @click="setVolume(0)" />
+        <VolumeUp
+          v-else-if="volume <= 1 && volume > 0.5"
+          @click="setVolume(0)"
+        />
+        <VolumeMute v-else @click="setVolume(0.5)" />
         <input
           type="range"
           step="any"
           v-model="volume"
           min="0"
           max="1"
-          @change="setVolume"
+          @change="setVolume(volume)"
           class="2xl:w-40 lg:w-32 md:w-32 h-1 ml-2"
         />
       </div>

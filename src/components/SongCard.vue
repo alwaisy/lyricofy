@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { defineProps, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { PlayPause } from '@/components';
 
 const route = useRoute();
 
@@ -8,7 +9,14 @@ interface IArtists {
   adamid: string;
 }
 
+interface IActions {
+  name: string;
+  type: string;
+  uri: string;
+}
+
 type TArtists = IArtists[];
+type TActions = IActions[];
 
 interface IProps {
   title: string;
@@ -17,11 +25,18 @@ interface IProps {
     coverart: string;
   };
   artists: TArtists;
+  hub: {
+    actions?: TActions;
+  };
 }
 
-const { chart } = defineProps<{
+const { chart, charts, i } = defineProps<{
   chart: IProps;
+  charts: any[];
+  i: number;
 }>();
+
+// console.log(chart.hub?.actions[1]?.uri);
 </script>
 
 <template>
@@ -32,20 +47,7 @@ const { chart } = defineProps<{
       <div
         class="absolute inset-0 justify-center items-center bg-black bg-opacity-50 group-hover:flex hidden"
       >
-        <svg
-          stroke="currentColor"
-          fill="currentColor"
-          stroke-width="0"
-          viewBox="0 0 512 512"
-          class="text-gray-300"
-          height="35"
-          width="35"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm115.7 272l-176 101c-15.8 8.8-35.7-2.5-35.7-21V152c0-18.4 19.8-29.8 35.7-21l176 107c16.4 9.2 16.4 32.9 0 42z"
-          ></path>
-        </svg>
+        <PlayPause :song="chart" :songs="charts" :i="i" />
       </div>
       <img
         alt="song_img"

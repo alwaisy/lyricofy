@@ -7,6 +7,7 @@ import RelatedSongs from './RelatedSongs.vue';
 import SongCard from './SongCard.vue';
 import ArtistCard from './ArtistCard.vue';
 import DetailsHeader from './DetailsHeader.vue';
+import PlayPause from './PlayPause.vue';
 
 export {
   Sidebar,
@@ -16,5 +17,6 @@ export {
   RelatedSongs,
   SongCard,
   ArtistCard,
-  DetailsHeader
+  DetailsHeader,
+  PlayPause
 };
